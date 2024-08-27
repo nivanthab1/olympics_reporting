@@ -7,7 +7,7 @@ from pathlib import Path
 from PIL import Image
 
 #Function to render homepage
-def basic_render():
+def basic_render(home):
 
     #Getting path of favicon image
     file_directory = Path(__file__).parent.parent
@@ -36,6 +36,22 @@ def basic_render():
 
     #Horizontal divider
     st.divider()
+
+    #Welcome page writeup in justified text if homepage
+    if home=='Yes':
+
+        st.subheader("Welcome to my Olympics Reporting Application!")
+
+        st.markdown("""
+                    <div style="text-align: justify;">
+                    
+                    As someone who's always been captivated by the fierce competition of the Olympics, I've combined my passion for the Games with my knack for data analytics to create this interactive platform. I've spent countless hours watching the powerhouses battle it out, and that drive led me to dive deep, uncovering the granular details that tell the story behind the Games, sports, events and medals.
+                    
+                    Building this application wasn’t just about pulling together data; it was a journey. It started with recognising the challenge of finding detailed, structured Olympic data—something that could be dissected and explored. From there, I rolled up my sleeves and got to work, extracting and refining the data with Python and Selenium, ensuring its quality, and then transforming it into something meaningful. The final step was developing this accessible and user-friendly app using Streamlit, so others could explore the same insights that have fascinated me.
+                    
+                    I hope this platform offers you a new perspective on the Olympics, allowing you to dig deeper into the stories that make the Games so compelling.
+                    
+                    Enjoy your exploration!""",unsafe_allow_html=True)
 
 #Function to create page footer
 def page_footer():
