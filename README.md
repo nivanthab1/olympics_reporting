@@ -1,1 +1,1 @@
-# URL: https://olympics-reporting.streamlit.app
+# URL: https://theolympicview.streamlit.app
