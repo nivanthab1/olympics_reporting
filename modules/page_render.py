@@ -14,7 +14,7 @@ def basic_render(home):
     logo = Image.open(file_directory / 'inputs' / 'Browser Icon Reverse.png')
     
     #Configuring Streamlit page
-    st.set_page_config(page_title = 'Olympics Reporting Application',
+    st.set_page_config(page_title = 'Olympic View',
                        page_icon = logo,
                        layout = "wide",
                        initial_sidebar_state="expanded")
