@@ -49,9 +49,7 @@ def basic_render(home):
                     
                     Building this application wasn’t just about pulling together data; it was a journey. It started with recognising the challenge of finding detailed, structured Olympic data—something that could be dissected and explored. From there, I rolled up my sleeves and got to work, extracting and refining the data with Python and Selenium, ensuring its quality, and then transforming it into something meaningful. The final step was developing this accessible and user-friendly app using Streamlit, so others could explore the same insights that have fascinated me.
                     
-                    I hope this platform offers you a new perspective on the Olympics, allowing you to dig deeper into the stories that make the Games so compelling.
-                    
-                    Enjoy your exploration!""",unsafe_allow_html=True)
+                    I hope this platform offers you a new perspective on the Olympics, allowing you to dig deeper into the stories that make the Games so compelling.""",unsafe_allow_html=True)
 
 #Function to create page footer
 def page_footer():
