@@ -8,9 +8,8 @@ from modules.analysis_tables import create_medal_tally
 #Rendering page
 basic_render("No")
 
-#Checking if dataframe in session state. If not, load dataframe
-if 'df' not in st.session_state:
-    st.session_state['df'] = load_dataframe()
+#Initialising session state variable with loaded dataframe
+st.session_state['df'] = load_dataframe()
 
 #Recalling df from session state
 df = st.session_state['df']
