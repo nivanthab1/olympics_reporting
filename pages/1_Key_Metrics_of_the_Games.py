@@ -11,6 +11,7 @@ basic_render("No")
 #Checking if dataframe in session state. If not, return to homepage
 if 'df' not in st.session_state:
     st.error("Return to Homepage.")
+    st.stop() #Stop execution if df not found in session state
 
 #Otherwise, execute the below
 else:
