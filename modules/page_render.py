@@ -5,8 +5,10 @@
 import streamlit as st
 from pathlib import Path
 from PIL import Image
+import pandas as pd
 
 #Function to render homepage
+#=================================================================================================
 def basic_render(home):
 
     #Getting path of favicon image
@@ -52,6 +54,38 @@ def basic_render(home):
                     I hope this platform offers you a new perspective on the Olympics, allowing you to dig deeper into the stories that make the Games so compelling.""",unsafe_allow_html=True)
 
 #Function to create page footer
+#=================================================================================================
 def page_footer():
     st.divider()
     st.write("**Product of NivAnalytics - https://www.nivanalytics.com**")
+
+#Function to load dataframe
+#=================================================================================================
+@st.cache_data
+def load_dataframe():
+
+    #Setting path to input file to be read for analysis
+    file_directory = Path(__file__).parent.parent
+    file_path = file_directory / 'inputs' / 'Olympics_Analysis_Data.pkl'
+
+    #Reading into pandas dataframe
+    df = pd.read_pickle(file_path)
+
+    #Filtering out older Olympics games
+    df = df[df['olympics_name'].isin(df['olympics_name'].unique()[9::])].reset_index()
+
+    #Filtering out Wushu from Olympics games
+    df = df[df['sport']!='Wushu'].reset_index()
+
+    #Renaming columns
+    df.rename(columns={'sports_emojis':'Sport',
+                    'country_flag':'Country',
+                    'event_name':'Event Name',
+                    'clean_position':'Position',
+                    'clean_time':'Time(s)',
+                    'new_score':'Score',
+                    'olympics_name':'Olympics',
+                    'clean_athlete':'Athlete',
+                    'day_of_games':'Day of Games'},inplace=True)
+    
+    return df
