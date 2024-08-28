@@ -101,7 +101,7 @@ if games=='All':
 with st.expander(f"**Visualisation of Cumulative Gold Medals by {view_type} Across Day of Olympic Games**",expanded=True):
 
     #Creating slider of Day of Olympic games
-    end_day = st.select_slider("Day of Games",options = df['Day of Games'].unique().astype(int),label_visibility='hidden')
+    end_day = st.select_slider("Day of Games",options = df['Day of Games'].unique().astype(int))
 
     #Creating list of all days from first to last selected
     try:
