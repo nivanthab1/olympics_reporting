@@ -21,17 +21,15 @@ df = st.session_state['df']
 event_performance_df = df[(df['Score'].notnull() | (df['Time(s)'].notnull()))].copy()
 
 #Secondary filtering to selected sports
-event_performance_df = event_performance_df[event_performance_df['sport'].isin(['Athletics','Swimming','Diving','Artistic Gymnastics'])]
+event_performance_df = event_performance_df[event_performance_df['sport'].isin(['Athletics','Swimming','Diving','Artistic Gymnastics','Canoe Slalom','Trampolining'])]
 
-#Creating columns to display subheader and radio buttons separately with suitable column spacing
-col1,col2,col3 = st.columns([10,5,7])
-
-with col1:
-    st.subheader("Event Performance")
+#Section descriptions
+st.subheader("Event Performance")
+st.write("Discover how Olympic champions' performances have evolved over the years, from record-breaking times to higher scores. Select a sport and event to see the trends and improvements among gold medalists across different Olympic Games.")
+st.write('\n')
 
 #Creating selectbox to choose sport
-with col2:
-    sport = st.selectbox("**Select sport**", index=None, options = sorted(event_performance_df['Sport'].unique()))
+sport = st.sidebar.selectbox("**Sport**", index=None, options = sorted(event_performance_df['Sport'].unique()))
 
 #Performs the below if sport selected
 if sport is not None:
@@ -40,8 +38,7 @@ if sport is not None:
     event_performance_df = event_performance_df[event_performance_df['Sport']==sport]
 
 #Creating selectbox to choose event name
-with col3:
-    event_name = st.selectbox("**Select event name**", index=None, options = sorted(event_performance_df['Event Name'].unique()))
+event_name = st.sidebar.selectbox("**Event Name**", index=None, options = sorted(event_performance_df['Event Name'].unique()))
 
 #Performs the below if event_name selected
 if event_name is not None:
