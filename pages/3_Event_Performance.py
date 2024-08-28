@@ -8,60 +8,66 @@ from modules.visualisations import event_performance_vis
 #Rendering page
 basic_render("No")
 
-#Recalling df from session state
-df = st.session_state['df']
+#Checking if dataframe in session state. If not, return to homepage
+if 'df' not in st.session_state:
+    st.error("Return to Homepage.")
 
-#Event performance section 
-#==============================================================================================================================
+#Otherwise, execute the below
+else:
+    #Recalling df from session state
+    df = st.session_state['df']
 
-#Initially, filtering for either time or scored events
-event_performance_df = df[(df['Score'].notnull() | (df['Time(s)'].notnull()))].copy()
+    #Event performance section 
+    #==============================================================================================================================
 
-#Secondary filtering to selected sports
-event_performance_df = event_performance_df[event_performance_df['sport'].isin(['Athletics','Swimming','Diving','Artistic Gymnastics'])]
+    #Initially, filtering for either time or scored events
+    event_performance_df = df[(df['Score'].notnull() | (df['Time(s)'].notnull()))].copy()
 
-#Creating columns to display subheader and radio buttons separately with suitable column spacing
-col1,col2,col3 = st.columns([10,5,7])
+    #Secondary filtering to selected sports
+    event_performance_df = event_performance_df[event_performance_df['sport'].isin(['Athletics','Swimming','Diving','Artistic Gymnastics'])]
 
-with col1:
-    st.subheader("Event Performance")
+    #Creating columns to display subheader and radio buttons separately with suitable column spacing
+    col1,col2,col3 = st.columns([10,5,7])
 
-#Creating selectbox to choose sport
-with col2:
-    sport = st.selectbox("**Select sport**", index=None, options = sorted(event_performance_df['Sport'].unique()))
+    with col1:
+        st.subheader("Event Performance")
 
-#Performs the below if sport selected
-if sport is not None:
+    #Creating selectbox to choose sport
+    with col2:
+        sport = st.selectbox("**Select sport**", index=None, options = sorted(event_performance_df['Sport'].unique()))
 
-    #Filtering dataframe for selected sport
-    event_performance_df = event_performance_df[event_performance_df['Sport']==sport]
+    #Performs the below if sport selected
+    if sport is not None:
 
-#Creating selectbox to choose event name
-with col3:
-    event_name = st.selectbox("**Select event name**", index=None, options = sorted(event_performance_df['Event Name'].unique()))
+        #Filtering dataframe for selected sport
+        event_performance_df = event_performance_df[event_performance_df['Sport']==sport]
 
-#Performs the below if event_name selected
-if event_name is not None:
+    #Creating selectbox to choose event name
+    with col3:
+        event_name = st.selectbox("**Select event name**", index=None, options = sorted(event_performance_df['Event Name'].unique()))
 
-    #Filtering dataframe for selected event name and winners
-    event_performance_df = event_performance_df[(event_performance_df['Event Name']==event_name) & (event_performance_df['Position']=='1')]
-    
-    #Identify if event is timed or scored
-    if len(event_performance_df[event_performance_df['Score'].isnull()])>0:
-        field = 'Time(s)'
-    
-    else:
-        field = 'Score'
+    #Performs the below if event_name selected
+    if event_name is not None:
 
-    #Calculating minimum and maximum values for chart y-axis range
-    min_val = event_performance_df[field].min()
-    max_val = event_performance_df[field].max()
+        #Filtering dataframe for selected event name and winners
+        event_performance_df = event_performance_df[(event_performance_df['Event Name']==event_name) & (event_performance_df['Position']=='1')]
+        
+        #Identify if event is timed or scored
+        if len(event_performance_df[event_performance_df['Score'].isnull()])>0:
+            field = 'Time(s)'
+        
+        else:
+            field = 'Score'
 
-    #Sorting x-axis
-    sorted_field = event_performance_df['Olympics'].unique()
+        #Calculating minimum and maximum values for chart y-axis range
+        min_val = event_performance_df[field].min()
+        max_val = event_performance_df[field].max()
 
-    #Creating event performance visualisation
-    event_performance_vis(event_performance_df,sorted_field,field,min_val,max_val)
+        #Sorting x-axis
+        sorted_field = event_performance_df['Olympics'].unique()
+
+        #Creating event performance visualisation
+        event_performance_vis(event_performance_df,sorted_field,field,min_val,max_val)
 
 #Creating page footer
 page_footer()
