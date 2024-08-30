@@ -1,6 +1,3 @@
-#Below functions are to render the page for the Olympics reporting app
-#=================================================================================================
-
 #Importing libraries
 import streamlit as st
 from pathlib import Path
@@ -47,9 +44,12 @@ def basic_render(home):
         st.markdown("""
                     <div style="text-align: justify;">
                     
-                    As someone who's always been captivated by the fierce competition of the Olympics, I've combined my passion for the Games with my knack for data analytics to create this interactive platform. I've spent countless hours watching the powerhouses battle it out, and that drive led me to dive deep, uncovering the granular details that tell the story behind the Games, sports, events and medals.
+                    As someone who has always been captivated by the fierce competition of the Olympics, I've combined my passion for the Games with my knack for data analytics to create this interactive platform. I've spent countless hours watching the powerhouses battle it out, and that drive led me to dive deep, uncovering the granular details that tell the story behind the Games, sports, events and medals.
                     
-                    Building this application wasn’t just about pulling together data; it was a journey. It started with recognising the challenge of finding detailed, structured Olympic data—something that could be dissected and explored. From there, I rolled up my sleeves and got to work, extracting and refining the data with Python and Selenium, ensuring its quality, and then transforming it into something meaningful. The final step was developing this accessible and user-friendly app using Streamlit, so others could explore the same insights that have fascinated me.
+                    Building this application was a journey that started with recognising the challenge of finding detailed Olympic insights that could be dissected and explored. From there, the work began with planning out the various phases of this mini-project:
+                    - Phase 1: Extracting and refining the data with Python and Selenium \n
+                    - Phase 2: Transforming it into something meaningful using Pandas, ensuring its quality \n
+                    - Phase 3: Final step was developing this accessible and user-friendly app using Streamlit, so others could explore the same insights that have fascinated me
                     
                     I hope this platform offers you a new perspective on the Olympics, allowing you to dig deeper into the stories that make the Games so compelling.""",unsafe_allow_html=True)
 
@@ -80,6 +80,7 @@ def load_dataframe():
     #Renaming columns
     df.rename(columns={'sports_emojis':'Sport',
                     'country_flag':'Country',
+                    'country':'ct',
                     'event_name':'Event Name',
                     'clean_position':'Position',
                     'clean_time':'Time(s)',

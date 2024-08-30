@@ -1,9 +1,10 @@
-#Importing libraries
+#0) Importing libraries and setting up page
+#==============================================================================================================================
 import streamlit as st
 from pathlib import Path
 import pandas as pd
 from modules.page_render import basic_render,page_footer,load_dataframe
-from modules.analysis_tables import create_medal_tally
+from modules.reporting import create_medal_tally
 
 #Rendering page
 basic_render("No")
@@ -14,7 +15,7 @@ st.session_state['df'] = load_dataframe()
 #Recalling df from session state
 df = st.session_state['df']
 
-#Setting universal filters
+#1) Setting universal filters
 #==============================================================================================================================
 
 #Creating selectbox to select specific Olympic games
@@ -31,9 +32,8 @@ sports = st.sidebar.selectbox("**Sport**",options=(["All"] + sorted(list(df['Spo
 if sports!='All':
     df = df[df['Sport']==sports]
 
-#Key metrics section 
+#2) Calculating key metrics
 #==============================================================================================================================
-
 st.subheader("Key Metrics of the Games")
 
 #Creating medal_df using create_medal_tally function grouped by country for below metric calculations
@@ -45,41 +45,36 @@ successful_country = medal_df.loc[0,'Country']
 gold_count = medal_df.loc[0,'🥇 Gold'].astype(int)
 sport_count = "{:,}".format(df['Sport'].nunique())
 event_count = "{:,}".format(df['event_url'].nunique())
-athlete_count = "{:,}".format(df['Athlete'].nunique())
+medal_count = "{:,}".format(len(df))
 
 #Calculating gender ratio
-try:
-    men_ratio = round((df['gender'].value_counts().get('Men')/df['gender'].value_counts().sum())*100,1).astype(int)
-except:
-    men_ratio = 0
-
-try:
-    women_ratio = round((df['gender'].value_counts().get('Women')/df['gender'].value_counts().sum())*100,2).astype(int)
-except:
-    women_ratio = 0
-
-try:
-    mixed_ratio = round((df['gender'].value_counts().get('Mixed')/df['gender'].value_counts().sum())*100,2).astype(int)
-except:
-    mixed_ratio = 0
+total_count = df['gender'].value_counts().sum()
+men_ratio = int((df['gender'].value_counts().get('Men',0)/total_count)*100) if total_count >0 else 0
+women_ratio = int((df['gender'].value_counts().get('Women',0)/total_count)*100) if total_count >0 else 0
+mixed_ratio = int((df['gender'].value_counts().get('Mixed',0)/total_count)*100) if total_count >0 else 0
 
 #Calculating % of gold medals won by host country
-mask = (df['host_country']==df['country']) & (df['Position']=='1')
-host_country_win_perc = int((len(df[mask]) / df['event_url'].nunique())*100)
+mask = (df['host_country']==df['ct']) & (df['Position']=='1')
+host_country_win_perc = f"{int((len(df[mask]) / df['event_url'].nunique())*100)}%"
 
-#Displaying calculated metrics in presentable format with suitable column spacing
-col1, col2, col3 = st.columns([4,5,2])
+#3) Displaying calculated metrics in presentable format with suitable column spacing
+#==============================================================================================================================
+col1, col2, col3 = st.columns([4,5,3])
 
-col1.metric("**Olympic Games**",games)
-col1.metric("**Olympic Sport**",sports)
-col1.metric("**Most Successful Country**",successful_country)
-col2.metric("**Host Country Gold Medal %**",host_country_win_perc)
-col2.metric("**Gender Ratio (Men : Women : Mixed Event)**",f"{men_ratio} : {women_ratio} : {mixed_ratio}")
-col2.metric(f"**Gold Medals Won by {successful_country}**",gold_count)
-col3.metric("**Sports**",sport_count)
-col3.metric("**Events**",event_count)
-col3.metric("**Medals Awarded**",athlete_count)
-#col3.metric("**Medalist Countries**",countries_count)
+with col1:
+    st.metric("**Olympic Games**",games)
+    st.metric("**Olympic Sport**",sports)
+    st.metric("**Host Country Gold Medal %**",host_country_win_perc,help="Gold medals won by the host country of the Games expressed as a percentage of all events")
+
+with col2:
+    st.metric("**Most Successful Country**",successful_country,help="Country with greatest medal tally of all-time")
+    st.metric(f"**Gold Medals Won by {successful_country}**",gold_count)
+    st.metric("**Medalist Gender Ratio (Men : Women : Mixed Event)**",f"{men_ratio} : {women_ratio} : {mixed_ratio}")
+
+with col3: 
+    st.metric("**Total Sports**",sport_count)
+    st.metric("**Total Events**",event_count)
+    st.metric("**Total Medals Awarded**",medal_count,help="Sum of all medals awarded across all countries and events")
 
 #Creating page footer
 page_footer()

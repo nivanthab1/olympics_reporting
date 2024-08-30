@@ -1,9 +1,10 @@
-#Importing libraries
+#0) Importing libraries and setting up page
+#==============================================================================================================================
 import streamlit as st
 from pathlib import Path
 import pandas as pd
 from modules.page_render import basic_render,page_footer,load_dataframe
-from modules.visualisations import event_performance_vis
+from modules.reporting import event_performance_vis
 
 #Rendering page
 basic_render("No")
@@ -14,7 +15,7 @@ st.session_state['df'] = load_dataframe()
 #Recalling df from session state
 df = st.session_state['df']
 
-#Event performance section 
+#1) Event performance section 
 #==============================================================================================================================
 
 #Initially, filtering for either time or scored events
