@@ -25,7 +25,7 @@ event_performance_df = df[(df['Score'].notnull() | (df['Time(s)'].notnull()))].c
 event_performance_df = event_performance_df[event_performance_df['sport'].isin(['Athletics','Swimming','Diving','Artistic Gymnastics','Canoe Slalom','Trampolining'])]
 
 #Section descriptions
-st.subheader("Event Performance")
+st.subheader("Evolution of Performance")
 st.write("Discover how Olympic champions' performances have evolved over the years, from record-breaking times to higher scores. Select a sport and event to see the trends and improvements among gold medalists across different Olympic Games.")
 st.write('\n')
 
