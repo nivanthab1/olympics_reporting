@@ -57,7 +57,7 @@ def basic_render(home):
 #=================================================================================================
 def page_footer():
     st.divider()
-    st.write("**Product of NivAnalytics - https://www.nivanalytics.com**")
+    st.write("**Product of NivAnalytics - https://www.linkedin.com/in/nivantha-bandara/**")
 
 #Function to load dataframe
 #=================================================================================================
